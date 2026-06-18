@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Soft Shop</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Soft Shop</h1>
+    <div class="account-section">
+      <input type="email" id="accountEmail" placeholder="Your email" />
+      <button id="saveAccountBtn">Save account</button>
+      <span id="accountStatus"></span>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="search-section">
+      <input type="text" id="searchInput" placeholder="Search for products..." />
+    </section>
+
+    <section class="products-section" id="productsContainer">
+      <!-- Products injected by JS -->
+    </section>
+  </main>
+
+  <footer class="cart-footer">
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items injected by JS -->
+    </div>
+    <div class="cart-summary">
+      <div class="cart-total">
+        Total: <span id="cartTotal">0.00 €</span>
+      </div>
+      <div class="order-actions">
+        <button class="btn disabled" id="payDirectBtn" disabled>
+          Pay directly (coming soon)
+        </button>
+        <button class="btn primary" id="payCashBtn">
+          Pay in cash on delivery
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---------------- CONFIG ----------------
+    const ITEMS_TXT_URL = 'items.txt'; // same folder
+    const ORDER_EMAIL = 'celalma.contact@gmail.com';
+
+    // ------------- STATE --------------------
+    let products = [];
+    let filteredProducts = [];
+    let cart = {}; // { productName: { product, quantity } }
+
+    // ------------- HELPERS ------------------
+    function formatPrice(num) {
+      return num.toFixed(2) + ' €';
+    }
+
+    function createProductCard(product) {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      if (!product.available) {
+        card.classList.add('unavailable');
+      }
+
+      const img = document.createElement('img');
+      img.src = product.image;
+      img.alt = product.name;
+
+      const info = document.createElement('div');
+      info.className = 'product-info';
+
+      const name = document.createElement('h3');
+      name.textContent = product.name;
+
+      const price = document.createElement('p');
+      price.className = 'product-price';
+      price.textContent = formatPrice(product.price);
+
+      const controls = document.createElement('div');
+      controls.className = 'product-controls';
+
+      const minusBtn = document.createElement('button');
+      minusBtn.textContent = '-';
+      minusBtn.className = 'qty-btn';
+
+      const qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.min = '0';
+      qtyInput.value = '0';
+      qtyInput.className = 'qty-input';
+
+      const plusBtn = document.createElement('button');
+      plusBtn.textContent = '+';
+      plusBtn.className = 'qty-btn';
+
+      if (!product.available) {
+        minusBtn.disabled = true;
+        plusBtn.disabled = true;
+        qtyInput.disabled = true;
+      }
+
+      minusBtn.addEventListener('click', () => {
+        let val = parseInt(qtyInput.value || '0', 10);
+        if (val > 0) val--;
+        qtyInput.value = val;
+        updateCartFromProduct(product, val);
+      });
+
+      plusBtn.addEventListener('click', () => {
+        let val = parseInt(qtyInput.value || '0', 10);
+        val++;
+        qtyInput.value = val;
+        updateCartFromProduct(product, val);
+      });
+
+      qtyInput.addEventListener('change', () => {
+        let val = parseInt(qtyInput.value || '0', 10);
+        if (isNaN(val) || val < 0) val = 0;
+        qtyInput.value = val;
+        updateCartFromProduct(product, val);
+      });
+
+      controls.appendChild(minusBtn);
+      controls.appendChild(qtyInput);
+      controls.appendChild(plusBtn);
+
+      info.appendChild(name);
+      info.appendChild(price);
+      info.appendChild(controls);
+
+      card.appendChild(img);
+      card.appendChild(info);
+
+      return card;
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('productsContainer');
+      container.innerHTML = '';
+      filteredProducts.forEach(p => {
+        container.appendChild(createProductCard(p));
+      });
+    }
+
+    function updateCartFromProduct(product, quantity) {
+      if (quantity > 0) {
+        cart[product.name] = { product, quantity };
+      } else {
+        delete cart[product.name];
+      }
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartItemsDiv = document.getElementById('cartItems');
+      const cartTotalSpan = document.getElementById('cartTotal');
+      cartItemsDiv.innerHTML = '';
+
+      let total = 0;
+
+      Object.values(cart).forEach(entry => {
+        const { product, quantity } = entry;
+        const line = document.createElement('div');
+        line.className = 'cart-item';
+
+        const name = document.createElement('span');
+        name.textContent = `${product.name} x ${quantity}`;
+
+        const price = document.createElement('span');
+        const lineTotal = product.price * quantity;
+        price.textContent = formatPrice(lineTotal);
+
+        total += lineTotal;
+
+        line.appendChild(name);
+        line.appendChild(price);
+        cartItemsDiv.appendChild(line);
+      });
+
+      cartTotalSpan.textContent = formatPrice(total);
+    }
+
+    function applySearchFilter(query) {
+      const q = query.toLowerCase();
+      filteredProducts = products.filter(p =>
+        p.name.toLowerCase().includes(q)
+      );
+      renderProducts();
+    }
+
+    function parseItemsTxt(text) {
+      // Expected format per line: name|price|available
+      // Example: Pizza Margherita|9.50|true
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
+      return lines.map(line => {
+        const [name, priceStr, availableStr] = line.split('|').map(s => s.trim());
+        const price = parseFloat(priceStr.replace(',', '.')) || 0;
+        const available = (availableStr || '').toLowerCase() === 'true';
+        return {
+          name,
+          price,
+          available,
+          image: `${name.replace(/\s+/g, '')}.png`
+        };
+      });
+    }
+
+    function buildOrderEmailBody(paymentMethod, userEmail) {
+      let body = `New ORDER\n\nPayment method: ${paymentMethod}\nCustomer email: ${userEmail || 'not provided'}\n\nItems:\n`;
+      let total = 0;
+
+      Object.values(cart).forEach(entry => {
+        const { product, quantity } = entry;
+        const lineTotal = product.price * quantity;
+        total += lineTotal;
+        body += `- ${product.name}: ${quantity} x ${product.price.toFixed(2)} = ${lineTotal.toFixed(2)}\n`;
+      });
+
+      body += `\nTotal: ${total.toFixed(2)} €\n`;
+      return body;
+    }
+
+    function sendOrder(paymentMethod) {
+      if (Object.keys(cart).length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+
+      const emailInput = document.getElementById('accountEmail');
+      const userEmail = emailInput.value.trim();
+
+      if (!userEmail) {
+        const manualEmail = prompt('Enter your email for this order:');
+        if (!manualEmail) {
+          alert('Email is required to place an order.');
+          return;
+        }
+        emailInput.value = manualEmail;
+      }
+
+      const finalEmail = emailInput.value.trim();
+      const body = buildOrderEmailBody(paymentMethod, finalEmail);
+      const mailtoLink = `mailto:${encodeURIComponent(ORDER_EMAIL)}?subject=${encodeURIComponent('ORDER')}&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailtoLink;
+    }
+
+    function loadAccountEmail() {
+      const saved = localStorage.getItem('softshop_email');
+      const emailInput = document.getElementById('accountEmail');
+      const status = document.getElementById('accountStatus');
+      if (saved) {
+        emailInput.value = saved;
+        status.textContent = 'Account loaded';
+      } else {
+        status.textContent = '';
+      }
+    }
+
+    function saveAccountEmail() {
+      const emailInput = document.getElementById('accountEmail');
+      const status = document.getElementById('accountStatus');
+      const val = emailInput.value.trim();
+      if (!val) {
+        status.textContent = 'Enter an email first';
+        return;
+      }
+      localStorage.setItem('softshop_email', val);
+      status.textContent = 'Account saved';
+    }
+
+    // ------------- INIT ---------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load items
+      fetch(ITEMS_TXT_URL)
+        .then(res => res.text())
+        .then(text => {
+          products = parseItemsTxt(text);
+          filteredProducts = products.slice();
+          renderProducts();
+        })
+        .catch(err => {
+          console.error('Error loading items.txt', err);
+        });
+
+      // Search
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', e => {
+        applySearchFilter(e.target.value);
+      });
+
+      // Account
+      loadAccountEmail();
+      document.getElementById('saveAccountBtn').addEventListener('click', saveAccountEmail);
+
+      // Order buttons
+      document.getElementById('payCashBtn').addEventListener('click', () => {
+        sendOrder('Cash on delivery');
+      });
+
+      // payDirectBtn is disabled for now (UI only)
+    });
+  </script>
+</body>
+</html>

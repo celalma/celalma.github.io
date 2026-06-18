@@ -1,0 +1,6 @@
+# name | price | available
+Pizza Margherita|9.50|true
+Cheeseburger|8.00|true
+Vegan Salad|7.20|true
+Chocolate Cake|4.50|false
+Sushi Box|12.90|true
