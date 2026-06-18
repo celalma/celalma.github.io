@@ -1,2 +1,1 @@
-# celalma.github.io
-GitHub Pages
+![Banner](assets/github-header-banner.png)
