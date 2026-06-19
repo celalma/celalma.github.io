@@ -1,0 +1,39 @@
+:root{
+  --bg:#f6f8fb;
+  --panel:#ffffff;
+  --muted:#6b7280;
+  --accent:#6c8cff;
+  --soft:#eef2ff;
+  --border:#e6e9ef;
+  --shadow: 0 6px 18px rgba(20,30,60,0.06);
+  --radius:10px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box}
+html,body,#app{height:100%;margin:0;background:var(--bg);color:#0f1724}
+.toolbar{
+  display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(90deg,#fff,#fbfdff);border-bottom:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+.toolbar button, .toolbar select{margin-right:8px;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel);cursor:pointer}
+.toolbar .center{display:flex;align-items:center}
+.main{display:flex;height:calc(100% - 140px);gap:12px;padding:12px}
+.panel{width:260px;background:var(--panel);border-radius:var(--radius);padding:12px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:auto}
+.left-panel{flex:0 0 260px}
+.right-panel{flex:0 0 420px}
+.stage-area{flex:1;display:flex;align-items:center;justify-content:center}
+.stage-container{width:100%;height:100%;background:linear-gradient(180deg,#e9f0ff,#ffffff);border-radius:var(--radius);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.assets-list{display:flex;flex-direction:column;gap:8px;max-height:220px;overflow:auto}
+.asset-item{display:flex;align-items:center;gap:8px;padding:6px;border-radius:8px;border:1px dashed transparent}
+.asset-item img{width:40px;height:40px;object-fit:cover;border-radius:6px}
+.asset-item .meta{font-size:13px;color:var(--muted)}
+.asset-actions{display:flex;gap:8px;margin-top:8px}
+.editor{height:420px;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#fff}
+.script-actions{display:flex;gap:8px;margin-top:8px}
+.console{height:120px;background:var(--panel);margin:12px;border-radius:var(--radius);padding:8px;border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column}
+.console-output{flex:1;overflow:auto;background:#0b1220;color:#e6eef8;padding:8px;border-radius:6px;font-family:monospace;font-size:13px}
+.console-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.sprite-props input, .sprite-props select{width:100%;padding:6px;margin-bottom:6px;border-radius:6px;border:1px solid var(--border)}
+.small{font-size:12px;color:var(--muted);margin-left:8px}
+button{cursor:pointer}
