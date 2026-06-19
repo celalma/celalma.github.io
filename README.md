@@ -9,3 +9,8 @@ See my newest projects that will eventually make their way to my website. These 
 ---
 
 [![Manilla](assets/manilla-banner.svg)](https://celalma.github.io/manilla)
+
+---
+
+[![Weaver](assets/weaver-banner.svg)](https://celalma.github.io/weaver)
+
