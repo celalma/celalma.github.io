@@ -1,0 +1,35 @@
+{
+  "metadata": { "name": "Sample Project", "created": 1700000000000 },
+  "assets": [
+    {
+      "id": "asset_sample_circle",
+      "name": "blue-circle.png",
+      "type": "image",
+      "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAQCAYAAAB49l0eAAAAF0lEQVR42u3BAQ0AAADCoPdPbQ43oAAAAAAAAAB4G4cAAQG0m0kAAAAASUVORK5CYII="
+    }
+  ],
+  "sprites": [
+    {
+      "id": "sprite_1",
+      "name": "Sample Sprite",
+      "x": 200,
+      "y": 150,
+      "scale": 1,
+      "rotation": 0,
+      "textureAssetId": "asset_sample_circle",
+      "scriptId": "script_1"
+    }
+  ],
+  "scripts": [
+    {
+      "id": "script_1",
+      "name": "Sample Sprite script",
+      "language": "js",
+      "code": "Engine.onUpdate((dt) => { Engine.log('tick', dt.toFixed(3)); });"
+    }
+  ],
+  "sounds": [],
+  "backgroundAssetId": "asset_sample_circle",
+  "volume": 1,
+  "paused": false
+}
