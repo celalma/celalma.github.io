@@ -45,4 +45,64 @@
            C 180 180, 420 260, 720 220
            C 1020 180, 1240 260, 1520 220
            C 1700 200, 1860 220, 1920 210"
-        fill="none" stroke="url(#weaveGrad)" stroke
+        fill="none" stroke="url(#weaveGrad)" stroke-width="4" opacity="0.6"/>
+
+  <path d="M -60 390
+           C 260 340, 520 420, 820 360
+           C 1120 300, 1320 380, 1600 340
+           C 1760 320, 1880 340, 1960 330"
+        fill="none" stroke="url(#weaveGrad)" stroke-width="3" opacity="0.4"/>
+
+  <!-- Icon: woven square -->
+  <g transform="translate(260, 230) scale(1.4)">
+    <!-- Glow behind icon -->
+    <circle cx="0" cy="0" r="70" fill="#0f172a" opacity="0.9"/>
+    <circle cx="0" cy="0" r="70" fill="#0ea5e9" filter="url(#glow)" opacity="0.55"/>
+
+    <!-- Woven lines -->
+    <g stroke-linecap="round" stroke-width="6" fill="none">
+      <path d="M -40 -20 L 40 20" stroke="#38bdf8"/>
+      <path d="M -40 0 L 40 40" stroke="#a855f7"/>
+      <path d="M -40 -40 L 40 0" stroke="#f97316"/>
+
+      <path d="M -20 -40 L 20 40" stroke="#38bdf8" opacity="0.9"/>
+      <path d="M 0 -40 L 40 20" stroke="#a855f7" opacity="0.9"/>
+      <path d="M -40 -20 L 0 40" stroke="#f97316" opacity="0.9"/>
+    </g>
+
+    <!-- Outer rounded square -->
+    <rect x="-52" y="-52" width="104" height="104" rx="18"
+          stroke="#e5e7eb" stroke-width="2" fill="none" opacity="0.9"/>
+  </g>
+
+  <!-- Text: Weaver -->
+  <g transform="translate(420, 245)">
+    <text x="0" y="0"
+          fill="#e5e7eb"
+          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="96"
+          font-weight="700"
+          letter-spacing="4">
+      Weaver
+    </text>
+
+    <text x="4" y="52"
+          fill="#9ca3af"
+          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="26"
+          letter-spacing="6">
+      PATTERNS · PIPELINES · COMPOSITION
+    </text>
+  </g>
+
+  <!-- Right-side subtle accent shapes -->
+  <g opacity="0.45">
+    <circle cx="1380" cy="120" r="70" fill="#0f172a"/>
+    <circle cx="1500" cy="340" r="90" fill="#020617"/>
+    <circle cx="1440" cy="220" r="120" fill="none" stroke="#1f2937" stroke-width="2"/>
+
+    <path d="M 1320 120 L 1460 120" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 1400 180 L 1560 180" stroke="#a855f7" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 1360 260 L 1540 260" stroke="#f97316" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  </g>
+</svg>
