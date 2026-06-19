@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manilla</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-icon">🎵</span>
+        <span class="logo-text">Manilla</span>
+      </div>
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search songs, artists..."
+        />
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="song-list-section">
+        <h2 class="section-title">All Songs</h2>
+        <ul id="songList" class="song-list">
+          <!-- Songs injected by script.js -->
+        </ul>
+      </section>
+
+      <aside class="player-sidebar" id="playerSidebar">
+        <div class="player-header">
+          <h2>Now Playing</h2>
+        </div>
+        <div class="player-content">
+          <div class="player-image-wrapper">
+            <img
+              id="playerImage"
+              src="images/default.jpg"
+              alt="Album art"
+            />
+          </div>
+          <div class="player-info">
+            <h3 id="playerTitle">Select a song</h3>
+            <p id="playerArtist">Artist</p>
+          </div>
+
+          <div class="player-controls">
+            <div class="player-buttons">
+              <button id="prevBtn" class="control-btn">⏮</button>
+              <button id="playPauseBtn" class="control-btn">▶</button>
+              <button id="nextBtn" class="control-btn">⏭</button>
+            </div>
+
+            <div class="player-progress">
+              <span id="currentTime">0:00</span>
+              <input
+                type="range"
+                id="progressBar"
+                min="0"
+                max="100"
+                value="0"
+              />
+              <span id="duration">0:00</span>
+            </div>
+
+            <div class="player-volume-share">
+              <div class="volume-control">
+                <span>🔊</span>
+                <input
+                  type="range"
+                  id="volumeSlider"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value="0.8"
+                />
+              </div>
+              <button id="shareBtn" class="share-btn">Share</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <audio id="audioElement"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
