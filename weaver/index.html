@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mini Game Editor</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- PixiJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
+  <!-- CodeMirror 6 (basic bundles via CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/codemirror.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@codemirror/basic-setup@0.19.1/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@0.19.3/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@codemirror/view@0.19.45/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@codemirror/state@0.19.8/dist/index.min.js"></script>
+  <!-- TypeScript transpiler -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typescript/5.4.2/typescript.min.js"></script>
+  <!-- JSZip and FileSaver -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="toolbar">
+      <div class="left">
+        <button id="btnNew">New</button>
+        <button id="btnOpen">Open</button>
+        <input id="fileOpen" type="file" accept=".json" style="display:none" />
+        <button id="btnSave">Save</button>
+        <button id="btnExport">Export ZIP</button>
+      </div>
+      <div class="center">
+        <button id="btnRun">Run</button>
+        <button id="btnStop">Stop</button>
+        <label class="small">Volume</label>
+        <input id="masterVolume" type="range" min="0" max="1" step="0.01" value="1" />
+      </div>
+      <div class="right">
+        <select id="langSelect">
+          <option value="ts">TypeScript</option>
+          <option value="js">JavaScript</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="main">
+      <aside class="panel left-panel">
+        <h3>Assets</h3>
+        <div id="assetsList" class="assets-list"></div>
+        <div class="asset-actions">
+          <button id="btnAddSprite">Add Sprite</button>
+          <input id="imgUpload" type="file" accept="image/*" />
+          <input id="audioUpload" type="file" accept="audio/*" />
+        </div>
+        <hr />
+        <h4>Selected Sprite</h4>
+        <div id="spriteProps" class="sprite-props">
+          <div><label>Name</label><input id="propName" /></div>
+          <div><label>X</label><input id="propX" type="number" /></div>
+          <div><label>Y</label><input id="propY" type="number" /></div>
+          <div><label>Scale</label><input id="propScale" type="number" step="0.1" /></div>
+          <div><label>Rotation</label><input id="propRotation" type="number" step="1" /></div>
+          <div><label>Texture</label><select id="propTexture"></select></div>
+          <button id="btnDeleteSprite">Delete Sprite</button>
+        </div>
+      </aside>
+
+      <section class="stage-area">
+        <div id="stageContainer" class="stage-container"></div>
+      </section>
+
+      <aside class="panel right-panel">
+        <h3>Code</h3>
+        <div id="editor" class="editor"></div>
+        <div class="script-actions">
+          <button id="btnLoadSpriteScript">Load Sprite Script</button>
+          <button id="btnSaveScript">Save Script</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="console">
+      <div class="console-header">
+        <strong>Console</strong>
+        <button id="btnClearConsole">Clear</button>
+      </div>
+      <div id="consoleOutput" class="console-output"></div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="engine.js"></script>
+</body>
+</html>
