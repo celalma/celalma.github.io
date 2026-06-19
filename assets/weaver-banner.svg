@@ -1,0 +1,48 @@
+<svg width="1700" height="460" viewBox="0 0 1700 460" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050816"/>
+      <stop offset="50%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+
+    <!-- Subtle grid pattern -->
+    <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1f2937" stroke-width="1"/>
+    </pattern>
+
+    <!-- Glow for icon -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="0 0 0 0 0.35
+                0 0 0 0 0.85
+                0 0 0 0 0.95
+                0 0 0 0.8 0"/>
+    </filter>
+
+    <!-- Weaving lines gradient -->
+    <linearGradient id="weaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background layers -->
+  <rect width="1700" height="460" fill="url(#bgGrad)"/>
+  <rect width="1700" height="460" fill="url(#grid)" opacity="0.25"/>
+
+  <!-- Abstract weaving curves -->
+  <path d="M -100 320
+           C 200 260, 420 380, 700 300
+           C 980 220, 1220 340, 1500 280
+           C 1660 250, 1820 300, 1900 260"
+        fill="none" stroke="url(#weaveGrad)" stroke-width="8" opacity="0.9"/>
+
+  <path d="M -80 220
+           C 180 180, 420 260, 720 220
+           C 1020 180, 1240 260, 1520 220
+           C 1700 200, 1860 220, 1920 210"
+        fill="none" stroke="url(#weaveGrad)" stroke
